@@ -4,9 +4,30 @@ This project is a fork of [Thoughtworks Tech Radar](https://github.com/thoughtwo
 
 This fork significantly simplifies the original project's layout and only uses the JSON configuration.
 
-## Build & run using Docker
+## Run using a pre-built Docker image (recommended)
 
-Using Docker Compose, you can build and run the app using this example `docker-compose.yml` config:
+This project automatically builds and publishes a Docker image on every merge, so if you just want to run the app, you don't have to mess with the source code at all.
+
+Given this `docker-compose.yml` config:
+
+```yaml
+version: "3.8"
+services:
+  tech_radar:
+    image: ghcr.io/awthwathje/build-your-own-radar
+    ports:
+      - 8080:80
+    volumes:
+      - ./radar.json:/opt/build-your-own-radar/data/radar.json
+```
+
+Then issuing `docker-compose up` command will run the app on `8080` port. Make sure `./radar.json` is available. It will be served by the included Nginx and is ready to be deployed to production.
+
+## Build it yourself
+
+### Docker with included Nginx
+
+If you prefer to build your own Docker image, that's also possible. Clone the repo and create a `docker-compose.yml` config similar to this:
 
 ```yaml
 version: "3.8"
@@ -19,9 +40,9 @@ services:
       - ./radar.json:/opt/build-your-own-radar/data/radar.json
 ```
 
-Running `docker-compose up` will make the app available at <http://localhost:8080>. It will be served by the included Nginx and is ready to be deployed to production.
+Running `docker-compose up` will make the app available at <http://localhost:8080>.
 
-## I don't need Nginx, I need static files
+### I don't need Nginx, I need static files
 
 In scenarios where you only need the generated files, and not the whole app with Nginx, you can adjust your Docker run configuration and grab the files to upload to your hosting.
 
@@ -29,7 +50,7 @@ Example config to deploy to GitLab Pages:
 
 `docker-compose.yml`:
 
-```
+```yaml
 version: "3.8"
 services:
   tech_radar:
@@ -60,7 +81,7 @@ pages:
     - runner-small
 ```
 
-## Local development
+### Local development
 
 Assuming Node.js is available locally:
 
@@ -71,7 +92,7 @@ The dev version will be available at <http://localhost:8080>.
 
 ## Example radar.json
 
-This project comes with an example `radar.json` in `data` directory, here it is in its entirety:
+This project comes with an example `radar.json` in `data` directory. You need to update it using your own data. Here is the example:
 
 ```json
 {
