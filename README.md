@@ -23,26 +23,7 @@ services:
 
 Then issuing `docker-compose up` command will run the app on `8080` port. Make sure `./radar.json` is available. It will be served by the included Nginx and is ready to be deployed to production.
 
-## Build it yourself
-
-### Docker with included Nginx
-
-If you prefer to build your own Docker image, that's also possible. Clone the repo and create a `docker-compose.yml` config similar to this:
-
-```yaml
-version: "3.8"
-services:
-  tech_radar:
-    build: .
-    ports:
-      - 8080:80
-    volumes:
-      - ./radar.json:/opt/build-your-own-radar/data/radar.json
-```
-
-Running `docker-compose up` will make the app available at <http://localhost:8080>.
-
-### I don't need Nginx, I need static files
+## I don't need Nginx, I need static files
 
 In scenarios where you only need the generated files, and not the whole app with Nginx, you can adjust your Docker run configuration and grab the files to upload to your hosting.
 
@@ -56,7 +37,7 @@ services:
   tech_radar:
     image: ghcr.io/awthwathje/build-your-own-radar
     ports:
-      - 3939:80
+      - 8080:80
     volumes:
       - ./radar.json:/opt/build-your-own-radar/data/radar.json
 ```
@@ -80,6 +61,25 @@ pages:
   tags:
     - runner-small
 ```
+
+## Build it yourself
+
+### Docker with included Nginx
+
+If you prefer to build your own Docker image, that's also possible. Clone the repo and create a `docker-compose.yml` config similar to this:
+
+```yaml
+version: "3.8"
+services:
+  tech_radar:
+    build: .
+    ports:
+      - 8080:80
+    volumes:
+      - ./radar.json:/opt/build-your-own-radar/data/radar.json
+```
+
+Running `docker-compose up` will make the app available at <http://localhost:8080>.
 
 ### Local development
 
